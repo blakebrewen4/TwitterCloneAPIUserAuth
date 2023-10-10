@@ -1,7 +1,6 @@
 ﻿using TwitterCloneAPIUserAuth.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using TwitterCloneAPIUserAuth;
 
 namespace TwitterCloneAPIUserAuth.Repositories
 {
@@ -16,7 +15,7 @@ namespace TwitterCloneAPIUserAuth.Repositories
 
         public Comment GetById(int commentId)
         {
-            return _context.Comments.FirstOrDefault(c => c.Id == commentId);
+            return _context.Comments.AsNoTracking().FirstOrDefault(c => c.Id == commentId);
         }
 
         public Comment Create(Comment comment)

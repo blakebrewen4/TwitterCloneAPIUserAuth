@@ -1,4 +1,5 @@
-﻿using TwitterCloneAPIUserAuth.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneAPIUserAuth.Repositories;
 
 namespace TwitterCloneAPIUserAuth.Services
@@ -6,20 +7,25 @@ namespace TwitterCloneAPIUserAuth.Services
     public class AuthenticationService
     {
         private readonly UserRepository _userRepository;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthenticationService(UserRepository userRepository)
+        public AuthenticationService(UserRepository userRepository, SignInManager<ApplicationUser> signInManager)
         {
             _userRepository = userRepository;
+            _signInManager = signInManager;
         }
 
-        public bool ValidateCredentials(string email, string password)
+        public async Task<bool> ValidateCredentials(string email, string password)
         {
             var user = _userRepository.GetByEmail(email);
-            if (user != null && user.Password == password) // This is a simple check, real-world apps should use hashed passwords!
+            if (user == null)
             {
-                return true;
+                return false;
             }
-            return false;
+
+            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+
+            return result.Succeeded;
         }
 
         // Add additional methods for token generation, validation, etc...
