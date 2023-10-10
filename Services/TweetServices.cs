@@ -22,6 +22,25 @@ namespace TwitterCloneAPIUserAuth.Services
             return _tweetRepository.Create(tweet);
         }
 
+        public IEnumerable<Tweet> GetAllTweets()
+        {
+            return _tweetRepository.GetAllTweets();
+        }
+
+        public Tweet CreateTweet(Tweet tweet)
+        {
+            return _tweetRepository.Create(tweet);
+        }
+
+        public void DeleteTweet(int tweetId)
+        {
+            var tweet = _tweetRepository.GetById(tweetId);
+            if (tweet != null)
+            {
+                _tweetRepository.Delete(tweet);
+            }
+        }
+
         // Add additional methods as needed...
     }
 }

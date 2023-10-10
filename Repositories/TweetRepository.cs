@@ -25,6 +25,16 @@ namespace TwitterCloneAPIUserAuth.Repositories
             _context.SaveChanges();
             return tweet;
         }
+        public IEnumerable<Tweet> GetAllTweets()
+        {
+            return _context.Tweets.ToList();
+        }
+
+        public void Delete(Tweet tweet)
+        {
+            _context.Tweets.Remove(tweet);
+            _context.SaveChanges();
+        }
 
         // Add additional methods as needed...
     }

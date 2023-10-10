@@ -24,6 +24,17 @@ namespace TwitterCloneAPIUserAuth.Repositories
             _context.SaveChanges();
             return comment;
         }
+        public IEnumerable<Comment> GetAllComments()
+        {
+            return _context.Comments.ToList();
+        }
+
+        public void Delete(Comment comment)
+        {
+            _context.Comments.Remove(comment);
+            _context.SaveChanges();
+        }
+
 
         // Add additional methods as needed...
     }

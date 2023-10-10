@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TwitterCloneAPIUserAuth.Services;
+using TwitterCloneAPIUserAuth.Models;
+
 
 namespace TwitterCloneAPIUserAuth.Controllers
 {
