@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TwitterCloneAPIUserAuth.Services;
+using TwitterCloneAPIUserAuth.Models;
 
 namespace TwitterCloneAPIUserAuth.Controllers
 {
@@ -36,11 +36,14 @@ namespace TwitterCloneAPIUserAuth.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] LoginModel model)
         {
-            var token = await _userService.AuthenticateAsync(model.Email, model.Password);
-            if (!string.IsNullOrEmpty(token))
+            var user = await _userService.AuthenticateAsync(model.Email, model.Password);
+            if (user != null)
             {
+                // Ideally, you should generate a token here for the authenticated user
+                // Assuming you have a method _userService.GenerateToken(user)
+                var token = _userService.GenerateToken(user);
                 return Ok(new { Token = token });
             }
 

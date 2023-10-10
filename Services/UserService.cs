@@ -1,23 +1,29 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using TwitterCloneAPIUserAuth.Models;
+using TwitterCloneAPIUserAuth.Repositories;
 using System.Threading.Tasks;
 
 namespace TwitterCloneAPIUserAuth.Services
 {
     public class UserService
     {
+        private readonly UserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IConfiguration _configuration;
 
-        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public UserService(UserRepository userRepository, UserManager<ApplicationUser> userManager)
         {
+            _userRepository = userRepository;
             _userManager = userManager;
-            _configuration = configuration;
+        }
+
+        public ApplicationUser GetById(string userId)
+        {
+            return _userRepository.GetById(userId);
+        }
+
+        public ApplicationUser Create(ApplicationUser user)
+        {
+            return _userRepository.Create(user);
         }
 
         public async Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
@@ -25,29 +31,22 @@ namespace TwitterCloneAPIUserAuth.Services
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<string> AuthenticateAsync(string email, string password)
+        public async Task<ApplicationUser> AuthenticateAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null && await _userManager.CheckPasswordAsync(user, password))
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name, user.Id)
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                return user;
             }
-            else
-            {
-                return null;
-            }
+            return null;
+        }
+
+        // Dummy method for generating a token
+        public string GenerateToken(ApplicationUser user)
+        {
+            // For now, just returning a string as a placeholder token
+            return "dummy_token_for_" + user.Email;
         }
     }
 }
+

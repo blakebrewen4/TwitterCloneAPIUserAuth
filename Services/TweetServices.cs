@@ -1,42 +1,46 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TwitterCloneAPIUserAuth.Models;
-using Microsoft.EntityFrameworkCore;
-using TwitterCloneAPIUserAuth.Data;
+﻿using TwitterCloneAPIUserAuth.Models;
+using TwitterCloneAPIUserAuth.Repositories;
 
 namespace TwitterCloneAPIUserAuth.Services
 {
     public class TweetService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly TweetRepository _tweetRepository;
 
-        public TweetService(ApplicationDbContext context)
+        public TweetService(TweetRepository tweetRepository)
         {
-            _context = context;
+            _tweetRepository = tweetRepository;
         }
 
-        public List<Tweet> GetAllTweets()
+        public Tweet GetById(int tweetId)
         {
-            return _context.Tweets.Include(t => t.User).ToList();
+            return _tweetRepository.GetById(tweetId);
+        }
+
+        public Tweet Create(Tweet tweet)
+        {
+            return _tweetRepository.Create(tweet);
+        }
+
+        public IEnumerable<Tweet> GetAllTweets()
+        {
+            return _tweetRepository.GetAllTweets();
         }
 
         public Tweet CreateTweet(Tweet tweet)
         {
-            _context.Tweets.Add(tweet);
-            _context.SaveChanges();
-            return tweet;
+            return _tweetRepository.Create(tweet);
         }
 
-        public void DeleteTweet(int id)
+        public void DeleteTweet(int tweetId)
         {
-            var tweet = _context.Tweets.FirstOrDefault(t => t.Id == id);
+            var tweet = _tweetRepository.GetById(tweetId);
             if (tweet != null)
             {
-                _context.Tweets.Remove(tweet);
-                _context.SaveChanges();
+                _tweetRepository.Delete(tweet);
             }
         }
 
-        // Additional methods for like, comment, and retweet can be added
+        // Add additional methods as needed...
     }
 }

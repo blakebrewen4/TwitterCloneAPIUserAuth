@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneAPIUserAuth.Services;
+using System.Linq;
 
 namespace TwitterCloneAPIUserAuth.Controllers
 {
@@ -19,7 +20,7 @@ namespace TwitterCloneAPIUserAuth.Controllers
         [HttpGet]
         public ActionResult<List<Tweet>> GetAllTweets()
         {
-            return _tweetService.GetAllTweets();
+            return Ok(_tweetService.GetAllTweets().ToList());
         }
 
         [HttpPost]
