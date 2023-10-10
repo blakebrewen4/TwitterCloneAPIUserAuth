@@ -1,0 +1,7 @@
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.csproj.AssemblyReference.cache
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.AssemblyInfoInputs.cache
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.AssemblyInfo.cs
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.csproj.CoreCompileInputs.cache
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Blake Brewen\source\repos\TwitterCloneAPIUserAuth\obj\Debug\net8.0\TwitterCloneAPIUserAuth.MvcApplicationPartsAssemblyInfo.cache
