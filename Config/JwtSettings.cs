@@ -1,4 +1,4 @@
-﻿namespace TwitterCloneAPIUserAuth.Config
+﻿namespace TwitterCloneAPIUserAuth
 {
     public class JwtSettings
     {
