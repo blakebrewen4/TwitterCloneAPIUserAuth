@@ -11,6 +11,7 @@ using System;
 using System.Text;
 using TwitterCloneAPIUserAuth.Config;
 using TwitterCloneAPIUserAuth.Data;
+using TwitterCloneAPIUserAuth.Models;
 
 namespace TwitterCloneAPIUserAuth
 {
