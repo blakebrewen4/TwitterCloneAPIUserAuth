@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneAPIUserAuth.Services;
+using System.Linq;
 
 namespace TwitterCloneAPIUserAuth.Controllers
 {
@@ -19,8 +20,9 @@ namespace TwitterCloneAPIUserAuth.Controllers
         [HttpGet]
         public ActionResult<List<Comment>> GetAllComments()
         {
-            return _commentService.GetAll();
+            return Ok(_commentService.GetAll().ToList());
         }
+
 
         [HttpGet("{id}")]
         public ActionResult<Comment> GetCommentById(int id)
