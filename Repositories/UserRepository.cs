@@ -1,30 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using TwitterCloneAPIUserAuth;
-using TwitterCloneAPIUserAuth.Models;
+using TwitterCloneAPIUserAuth.Data;
+using TwitterCloneShared.SharedModels;
 
 namespace TwitterCloneAPIUserAuth.Repositories
 {
     public class UserRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AuthTwitterDbContext _context;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserRepository(AuthTwitterDbContext context)
         {
             _context = context;
         }
 
-        public ApplicationUser GetById(string userId)
+        public User GetById(string userId)
         {
             return _context.Users.FirstOrDefault(u => u.Id == userId);
         }
 
-        public ApplicationUser GetByEmail(string email)
+        public User GetByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
-        public ApplicationUser Create(ApplicationUser user)
+        public User Create(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();

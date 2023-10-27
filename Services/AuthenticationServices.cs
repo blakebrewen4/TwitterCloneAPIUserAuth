@@ -5,23 +5,24 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TwitterCloneAPIUserAuth.Models;
+using TwitterCloneAPIUserAuth.Data;
 using TwitterCloneAPIUserAuth.Repositories;
+using TwitterCloneShared.SharedModels;
 
 namespace TwitterCloneAPIUserAuth.Services
 {
     public class AuthenticationService
     {
         private readonly UserRepository _userRepository;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public AuthenticationService(
             UserRepository userRepository,
-            SignInManager<ApplicationUser> signInManager,
+            SignInManager<User> signInManager,
             IConfiguration configuration,
-            UserManager<ApplicationUser> userManager)
+            UserManager<User> userManager)
         {
             _userRepository = userRepository;
             _signInManager = signInManager;

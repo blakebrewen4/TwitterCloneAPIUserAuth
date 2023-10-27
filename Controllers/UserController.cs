@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TwitterCloneAPIUserAuth.Services;
-using TwitterCloneAPIUserAuth.Models;
+using TwitterCloneAPIUserAuth.Data;
+using TwitterCloneShared.SharedModels;
 
-namespace TwitterCloneAPIUserAuth.Controllers
-{
+namespace TwitterCloneAPIUserAuth.Controllers;
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -19,25 +20,26 @@ namespace TwitterCloneAPIUserAuth.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationModel model)
+    public async Task<IActionResult> Register([FromBody] Registration model)
+    {
+        var user = new User
         {
-            var user = new ApplicationUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FullName = model.Name
-            };
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName
+        };
 
-            var result = await _userService.RegisterUserAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                return Ok(new { Message = "Registration successful!" });
-            }
-
-            return BadRequest(result.Errors);
+        var result = await _userService.RegisterUserAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            return Ok(new { Message = "Registration successful!" });
         }
 
-        [HttpPost("login")]
+        return BadRequest(result.Errors);
+    }
+
+    [HttpPost("login")]
         public async Task<IActionResult> AuthenticateAsync([FromBody] LoginModel model)
         {
             bool isValidCredentials = await _authService.ValidateCredentials(model.Email, model.Password);
@@ -67,4 +69,4 @@ namespace TwitterCloneAPIUserAuth.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
     }
-}
+
