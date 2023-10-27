@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace TwitterCloneAPIUserAuth.Models
 {
     public class ApplicationUser : IdentityUser
     {
         // Additional user properties, if needed
+        [Required, MaxLength(20)]
         public string FullName { get; set; }
         public string Bio { get; set; }
         public string ProfilePictureUrl { get; set; }

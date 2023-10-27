@@ -1,7 +1,7 @@
-﻿using TwitterCloneAPIUserAuth.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TwitterCloneAPIUserAuth.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using TwitterCloneAPIUserAuth;
 
 namespace TwitterCloneAPIUserAuth.Repositories
 {
@@ -14,28 +14,32 @@ namespace TwitterCloneAPIUserAuth.Repositories
             _context = context;
         }
 
-        public Tweet GetById(int tweetId)
+        public async Task<Tweet> GetByIdAsync(int tweetId)
         {
-            return _context.Tweets.FirstOrDefault(t => t.Id == tweetId);
+            return await _context.Tweets.FirstOrDefaultAsync(t => t.Id == tweetId);
         }
 
-        public Tweet Create(Tweet tweet)
+        public async Task<Tweet> CreateAsync(Tweet tweet)
         {
             _context.Tweets.Add(tweet);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return tweet;
         }
-        public IEnumerable<Tweet> GetAllTweets()
+
+        public async Task<IEnumerable<Tweet>> GetAllTweetsAsync()
         {
-            return _context.Tweets.ToList();
+            return await _context.Tweets.ToListAsync();
         }
 
-        public void Delete(Tweet tweet)
+        public async Task DeleteAsync(Tweet tweet)
         {
             _context.Tweets.Remove(tweet);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        // Add additional methods as needed...
+        public async Task<bool> HasUserTweetedSameContentBeforeAsync(string userId, string content)
+        {
+            return await _context.Tweets.AnyAsync(t => t.UserId == userId && t.Content == content);
+        }
     }
 }

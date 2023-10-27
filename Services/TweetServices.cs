@@ -1,4 +1,7 @@
-﻿using TwitterCloneAPIUserAuth.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneAPIUserAuth.Repositories;
 
 namespace TwitterCloneAPIUserAuth.Services
@@ -12,35 +15,39 @@ namespace TwitterCloneAPIUserAuth.Services
             _tweetRepository = tweetRepository;
         }
 
-        public Tweet GetById(int tweetId)
+        public async Task<Tweet> GetByIdAsync(int tweetId)
         {
-            return _tweetRepository.GetById(tweetId);
+            return await _tweetRepository.GetByIdAsync(tweetId);
         }
 
-        public Tweet Create(Tweet tweet)
+        public async Task<IEnumerable<Tweet>> GetAllTweetsAsync()
         {
-            return _tweetRepository.Create(tweet);
+            return await _tweetRepository.GetAllTweetsAsync();
         }
 
-        public IEnumerable<Tweet> GetAllTweets()
+        public async Task<bool> HasUserTweetedSameContentBeforeAsync(string userId, string content)
         {
-            return _tweetRepository.GetAllTweets();
+            return await _tweetRepository.HasUserTweetedSameContentBeforeAsync(userId, content);
         }
 
-        public Tweet CreateTweet(Tweet tweet)
+        public async Task<Tweet> CreateTweetAsync(Tweet tweet)
         {
-            return _tweetRepository.Create(tweet);
+            if (await _tweetRepository.HasUserTweetedSameContentBeforeAsync(tweet.UserId, tweet.Content))
+            {
+                throw new InvalidOperationException("You have already tweeted this content.");
+            }
+            return await _tweetRepository.CreateAsync(tweet);
         }
 
-        public void DeleteTweet(int tweetId)
+        public async Task DeleteTweetAsync(int tweetId)
         {
-            var tweet = _tweetRepository.GetById(tweetId);
+            var tweet = await _tweetRepository.GetByIdAsync(tweetId);
             if (tweet != null)
             {
-                _tweetRepository.Delete(tweet);
+                await _tweetRepository.DeleteAsync(tweet);
             }
         }
-
-        // Add additional methods as needed...
     }
 }
+
+

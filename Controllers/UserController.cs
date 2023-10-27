@@ -10,10 +10,12 @@ namespace TwitterCloneAPIUserAuth.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
+        private readonly AuthenticationService _authService;
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, AuthenticationService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -38,13 +40,15 @@ namespace TwitterCloneAPIUserAuth.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> AuthenticateAsync([FromBody] LoginModel model)
         {
-            var user = await _userService.AuthenticateAsync(model.Email, model.Password);
-            if (user != null)
+            bool isValidCredentials = await _authService.ValidateCredentials(model.Email, model.Password);
+            if (isValidCredentials)
             {
-                // Ideally, you should generate a token here for the authenticated user
-                // Assuming you have a method _userService.GenerateToken(user)
-                var token = _userService.GenerateToken(user);
-                return Ok(new { Token = token });
+                var user = await _userService.AuthenticateAsync(model.Email, model.Password);
+                if (user != null)
+                {
+                    var token = _authService.GenerateJwtToken(user.Id);  // Generate the JWT token here
+                    return Ok(new { Token = token });
+                }
             }
 
             return Unauthorized();

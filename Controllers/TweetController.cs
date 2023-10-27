@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneAPIUserAuth.Services;
-using System.Linq;
 
 namespace TwitterCloneAPIUserAuth.Controllers
 {
@@ -18,24 +18,32 @@ namespace TwitterCloneAPIUserAuth.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Tweet>> GetAllTweets()
+        public async Task<ActionResult<List<Tweet>>> GetAllTweets()
         {
-            return Ok(_tweetService.GetAllTweets().ToList());
+            return Ok(await _tweetService.GetAllTweetsAsync());
         }
 
         [HttpPost]
-        public ActionResult<Tweet> CreateTweet([FromBody] Tweet tweet)
+        public async Task<ActionResult<Tweet>> CreateTweet([FromBody] Tweet tweet)
         {
-            return _tweetService.CreateTweet(tweet);
+            try
+            {
+                return await _tweetService.CreateTweetAsync(tweet);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // You might want to provide a user-friendly message here
+            }
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteTweet(int id)
+        public async Task<ActionResult> DeleteTweet(int id)
         {
-            _tweetService.DeleteTweet(id);
+            await _tweetService.DeleteTweetAsync(id);
             return Ok();
         }
 
         // Endpoints for like, comment, and retweet functionalities can be added here
     }
 }
+
