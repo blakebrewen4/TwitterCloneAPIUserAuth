@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TwitterCloneAPIUserAuth.Services;
 using TwitterCloneAPIUserAuth.Data;
+using TwitterCloneAPIUserAuth.Models;
 using TwitterCloneShared.SharedModels;
 
 namespace TwitterCloneAPIUserAuth.Controllers;
@@ -40,7 +41,7 @@ namespace TwitterCloneAPIUserAuth.Controllers;
     }
 
     [HttpPost("login")]
-        public async Task<IActionResult> AuthenticateAsync([FromBody] LoginModel model)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] Login model)
         {
             bool isValidCredentials = await _authService.ValidateCredentials(model.Email, model.Password);
             if (isValidCredentials)
@@ -55,18 +56,5 @@ namespace TwitterCloneAPIUserAuth.Controllers;
 
             return Unauthorized();
         }
-    }
-
-    public class RegistrationModel
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class LoginModel
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
     }
 

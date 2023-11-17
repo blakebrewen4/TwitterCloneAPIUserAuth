@@ -41,12 +41,6 @@ namespace TwitterCloneAPIUserAuth.Services
             return null;
         }
 
-        // Dummy method for generating a token
-        public string GenerateToken(User user)
-        {
-            // For now, just returning a string as a placeholder token
-            return "dummy_token_for_" + user.Email;
-        }
     }
 }
 

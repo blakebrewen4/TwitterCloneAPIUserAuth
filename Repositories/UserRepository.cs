@@ -31,6 +31,5 @@ namespace TwitterCloneAPIUserAuth.Repositories
             return user;
         }
 
-        // Implement similar methods for TweetRepository and CommentRepository, adjusted for their respective entity types.
     }
 }

@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
