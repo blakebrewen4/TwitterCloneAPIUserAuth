@@ -7,9 +7,9 @@ namespace TwitterCloneAPIUserAuth.Repositories
 {
     public class UserRepository
     {
-        private readonly AuthTwitterDbContext _context;
+        private readonly AuthDbContext _context;
 
-        public UserRepository(AuthTwitterDbContext context)
+        public UserRepository(AuthDbContext context)
         {
             _context = context;
         }
