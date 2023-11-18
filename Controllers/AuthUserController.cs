@@ -9,12 +9,12 @@ namespace TwitterCloneAPIUserAuth.Controllers;
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthUserController : ControllerBase
     {
         private readonly UserService _userService;
         private readonly AuthenticationService _authService;
 
-        public UserController(UserService userService, AuthenticationService authService)
+        public AuthUserController(UserService userService, AuthenticationService authService)
         {
             _userService = userService;
             _authService = authService;
